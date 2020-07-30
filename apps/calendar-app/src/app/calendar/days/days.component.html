@@ -1,0 +1,12 @@
+<div class="calendar-day-list">
+  <ul class="calendar-days">
+    <li
+      *ngFor="let day of calendar"
+      [ngClass]="{ 'active-day': currentDay == day[0] }"
+      [attr.data-day]="day[0]"
+      [class]="day[1]"
+      (click)="selectDay(day[0])"
+    >
+    </li>
+  </ul>
+</div>

@@ -176,9 +176,17 @@ body {
   height: 40px;
   line-height: 40px;
 }
-li.another-month {
+
+li.another-month::after {
   color: #ccc !important;
+  background: white !important;
 }
+
+li.another-month:hover::after {
+  color: white !important;
+  background-color: #ccc !important;
+}
+
 .calendar .calendar-days li:hover:after,
 .calendar .calendar-days li.selected-day:after,
 .calendar .calendar-days li.event-day:before,

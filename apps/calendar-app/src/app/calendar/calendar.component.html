@@ -1,0 +1,21 @@
+<div class="right-side">
+  <calendar-year-select></calendar-year-select>
+  <div class="calendar-month-list">
+    <ul class="calendar-month">
+      <li
+        *ngFor="let month of months; let i = index"
+        [attr.data-month]="i"
+        (click)="changeMonth($event)"
+        [ngClass]="{active:  i == activeMonth}"
+      >
+        {{ month }}
+      </li>
+    </ul>
+  </div>
+  <div class="calendar-week-list">
+    <ul class="calendar-week">
+      <li *ngFor="let day of weekDays">{{ day }}</li>
+    </ul>
+  </div>
+  <calendar-days></calendar-days>
+</div>
