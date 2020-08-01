@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { DayEventsComponent } from './day-events/day-events.component';
@@ -10,8 +11,16 @@ import { YearSelectComponent } from './calendar/year-select/year-select.componen
 import { DaysComponent } from './calendar/days/days.component';
 
 @NgModule({
-  declarations: [AppComponent, DayEventsComponent, CalendarComponent, EventsComponent, EventsFormComponent, YearSelectComponent, DaysComponent],
-  imports: [BrowserModule],
+  declarations: [
+    AppComponent,
+    DayEventsComponent,
+    CalendarComponent,
+    EventsComponent,
+    EventsFormComponent,
+    YearSelectComponent,
+    DaysComponent,
+  ],
+  imports: [BrowserModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -2,7 +2,7 @@
   <ul class="calendar-days">
     <li
       *ngFor="let day of calendar"
-      [ngClass]="{ 'active-day': currentDay == day[0] }"
+      [ngClass]="{ 'active-day': currentDay == day[0], 'selected-day': selectedDay == day[0] }"
       [attr.data-day]="day[0]"
       [class]="day[1]"
       (click)="selectDay(day[0])"

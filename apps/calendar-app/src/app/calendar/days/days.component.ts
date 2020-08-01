@@ -8,6 +8,7 @@ import { CalendarService, IDate } from '../../services/calendar.service';
 })
 export class DaysComponent implements OnInit {
   currentDay = new Date().getDate();
+  selectedDay = 0
   calendar = [];
 
   constructor(private calendarService: CalendarService) {}
@@ -22,6 +23,8 @@ export class DaysComponent implements OnInit {
       } else {
         this.currentDay = 0;
       }
+
+      this.selectedDay = date.day
 
     });
 

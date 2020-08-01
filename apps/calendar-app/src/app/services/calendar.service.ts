@@ -27,9 +27,6 @@ export class CalendarService {
 
 
   constructor() {
-
-
-
   }
 
   init() {

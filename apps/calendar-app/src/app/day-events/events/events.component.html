@@ -1,4 +1,8 @@
 <div class="current-day-events">
   <div>Current Events:</div>
-  <ul class="current-day-events-list"></ul>
+  <ul class="current-day-events-list">
+    <li *ngFor="let event of events">
+      {{event}}
+    </li>
+  </ul>
 </div>
