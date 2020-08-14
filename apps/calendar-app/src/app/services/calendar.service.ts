@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { AppFacade } from '../+state/app/app.facade';
+import { take } from 'rxjs/operators';
 
 export interface IDate {
   year: number,
@@ -16,17 +18,14 @@ export class CalendarService {
     month: new Date().getMonth(),
     day: new Date().getDate()
   }
-  selectedYear = this.currentDate.year
-  selectedMonth = this.currentDate.month
-  selectedDay = this.currentDate.day
 
-  private dateSource = new BehaviorSubject<IDate>({year: this.selectedYear, month: this.selectedMonth, day: this.selectedDay})
+  private dateSource = new BehaviorSubject<IDate>({year: this.currentDate.year, month: this.currentDate.month, day: this.currentDate.day})
   selectedDate = this.dateSource.asObservable()
   private calendarSouce = new BehaviorSubject([])
   currentCalendar = this.calendarSouce.asObservable()
 
 
-  constructor() {
+  constructor(private appFacade: AppFacade) {
   }
 
   init() {
@@ -35,21 +34,27 @@ export class CalendarService {
     })
   }
 
-  changeMonth(month: number) {
-    this.selectedMonth = month
-    this.refreshDateSource()
+  changeMonth(newMonth: number) {
+    this.selectedDate.pipe(take(1)).subscribe((date: IDate) => {
+      this.appFacade.dispatchChangeDate({year: date.year, month: newMonth, day: date.day})
+    })
   }
-
   changeYear(direction: number) {
-    this.selectedYear += direction
-    this.refreshDateSource()
+    this.selectedDate.pipe(take(1)).subscribe((date: IDate) => {
+      let newYear = date.year + direction
+      this.appFacade.dispatchChangeDate({year: newYear, month: date.month, day: date.day})
+    })
+  }
+  selectDay(newDay:number) {
+    this.selectedDate.pipe(take(1)).subscribe((date: IDate) => {
+      this.appFacade.dispatchChangeDate({year: date.year, month: date.month, day: newDay})
+    })
   }
 
-  selectDay(day:number) {
-    this.selectedDay = day
-    this.refreshDateSource()
-  }
 
+  effectSetDate(date: IDate) {
+    this.dateSource.next(date)
+  }
 
   private drawCalendar(year, month) {
     const elem = document.querySelector('.calendar-day-list')
@@ -64,7 +69,6 @@ export class CalendarService {
     const iters = this.getDay(date);
     date.setDate(date.getDate() - this.getDay(date))
 
-    //////////////////
     for (let i = 0; i < iters; i++) {
       let dayNumber = date.getDate()
       table.push([dayNumber, 'another-month']);
@@ -84,7 +88,6 @@ export class CalendarService {
         dayNumber++;
       }
     }
-    //////////////////
 
     this.calendarSouce.next(table)
   }
@@ -95,8 +98,4 @@ export class CalendarService {
     return day
   }
 
-  private refreshDateSource() {
-    this.dateSource.next({year: this.selectedYear, month: this.selectedMonth, day: this.selectedDay})
-
-  }
 }

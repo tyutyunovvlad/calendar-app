@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { AppFacade } from '../../+state/app/app.facade';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ export class EventsService {
   private eventsComponentCallerSource = new BehaviorSubject(true)
   eventsComponentCaller = this.eventsComponentCallerSource.asObservable()
 
-  constructor() { }
+  constructor(private appFacade: AppFacade) { }
 
   addEvent(text: string, date: Date) {
     if (!this.events[`${date}`]) {
@@ -19,6 +20,9 @@ export class EventsService {
     }
     this.events[`${date}`].push(text)
     this.eventsComponentCallerSource.next(true)
+
+    console.log(this.events)
+    this.appFacade.dispatchAddEvent({text,date})
   }
 
   getEvent(date: Date) {
